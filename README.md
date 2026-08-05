@@ -14,7 +14,7 @@
 将仓库克隆到 Codex Skills 目录：
 
 ```powershell
-git clone <REPOSITORY_URL> "$env:USERPROFILE\.codex\skills\poetic-line-zine-poster"
+git clone https://github.com/zhu930824/poetic-line-zine-poster.git "$env:USERPROFILE\.codex\skills\poetic-line-zine-poster"
 ```
 
 重新打开 Codex 后，即可通过 `$poetic-line-zine-poster` 调用。
