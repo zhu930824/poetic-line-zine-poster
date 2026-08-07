@@ -14,8 +14,9 @@
 </p>
 
 <p align="center">
-  <img src="docs/examples/yellow-crane-railway.png" width="38%" alt="黄鹤楼与列车的摄影抽象 zine" />
-  <img src="docs/examples/yellow-crane-bridge-vertical.png" width="38%" alt="黄鹤楼与桥梁的九比十六摄影抽象 zine" />
+  <img src="docs/examples/yellow-crane-railway.png" width="31%" alt="黄鹤楼与列车的摄影抽象 zine" />
+  <img src="docs/examples/cat-stretch.png" width="31%" alt="伸懒腰的猫与姿态扫线摄影抽象 zine" />
+  <img src="docs/examples/small-arrival.png" width="31%" alt="雪山与汽车的摄影抽象 zine" />
 </p>
 
 ## 它会生成什么
