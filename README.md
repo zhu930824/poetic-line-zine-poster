@@ -29,6 +29,15 @@
 
 Skill 不会把整张照片变成素描，也不会在照片上叠加滤镜。摄影区和抽象区承担不同任务。
 
+## v2 改进
+
+- **两阶段生成**：图像模型只生成无文字抽象面板，脚本负责拼入原始照片与标题。
+- **三档抽象强度**：`restrained`、`balanced`、`expressive` 控制笔触数量和辨识程度。
+- **四类题材路由**：`gesture`、`mass`、`rhythm`、`path` 分别处理姿势、体量、重复和路径。
+- **确定性输出**：脚本固定照片占比、标题拼写和最终画幅。
+- **自动验收**：检查宽高比、摄影区像素忠实度和面板角落。
+- **回归评分**：用固定照片集比较每次规则调整，75 分作为通过线。
+
 ## 视觉语言
 
 ### Charcoal Sweep
@@ -67,6 +76,12 @@ Set-Location "$env:USERPROFILE\.codex\skills\poetic-line-zine-poster"
 git pull
 ```
 
+确定性拼版脚本依赖 Pillow：
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
 ## 快速使用
 
 上传一张照片，然后输入：
@@ -90,7 +105,7 @@ git pull
 强调抽象程度：
 
 ```text
-使用 $poetic-line-zine-poster 处理这张照片。主体再抽象一点，保留姿势和方向，不画完整轮廓。
+使用 $poetic-line-zine-poster 处理这张照片。使用 restrained 抽象强度，保留姿势和方向。
 ```
 
 让标题更安静：
@@ -105,10 +120,29 @@ git pull
 |---|---|---|
 | 画幅 | `输出 9:16` | 指定最终宽高比；生成后应校验像素尺寸 |
 | 强调色 | `用钴蓝色点缀` | 允许一种照片外颜色 |
-| 抽象程度 | `更抽象，不画完整轮廓` | 减少具象细节，保留姿势和关系 |
+| 抽象程度 | `使用 restrained` | 在 `restrained`、`balanced`、`expressive` 中选择 |
+| 题材路由 | `使用 gesture + path` | 指定姿势与运动路径的提炼方法 |
 | 标题语气 | `标题更安静` | 调整文字对比度、字号和空间位置 |
 | 排版模式 | `使用 Fragmented Typewriter` | 指定 zine 文字行为 |
 | 摄影占比 | `照片占上方约 65%` | 调整摄影区与面板比例 |
+
+## 确定性工作流
+
+Skill 默认生成无文字面板，然后运行三个脚本：
+
+```powershell
+python scripts/compose_poster.py source.jpg panel.png composed.png `
+  --size 1080x1920 --photo-share 0.55
+
+python scripts/render_typography.py composed.png final.png `
+  --title "a small arrival" --mode letterpress `
+  --emphasis-word arrival --panel-start 0.55
+
+python scripts/validate_output.py final.png `
+  --ratio 9:16 --source source.jpg --photo-share 0.55
+```
+
+完整命令和回退规则见 [two-stage-pipeline.md](./references/two-stage-pipeline.md)。
 
 ## 内部方法
 
@@ -144,7 +178,7 @@ Codex 会先找出 3 至 6 个视觉事实，例如人物姿势、建筑层叠�
 
 ## 9:16 输出说明
 
-部分图像模型会返回接近 9:16 的尺寸，例如 `941 × 1672`。使用方应在生成后检查像素比例；需要严格尺寸时，可以做数像素的边缘裁切，输出 `936 × 1664` 等精确 9:16 尺寸。边缘裁切不得改变主体或抽象母题。
+`compose_poster.py` 默认输出 `1080 × 1920`，也接受其他精确尺寸。`validate_output.py` 会检查宽高比，并将摄影区与原片经过相同裁切、缩放后的像素进行比较。
 
 ## 目录结构
 
@@ -152,6 +186,7 @@ Codex 会先找出 3 至 6 个视觉事实，例如人物姿势、建筑层叠�
 poetic-line-zine-poster/
 ├── SKILL.md
 ├── README.md
+├── requirements.txt
 ├── agents/
 │   └── openai.yaml
 ├── assets/
@@ -159,19 +194,29 @@ poetic-line-zine-poster/
 │   └── typography-references/
 ├── docs/
 │   └── examples/
+├── scripts/
+│   ├── compose_poster.py
+│   ├── render_typography.py
+│   ├── score_output.py
+│   └── validate_output.py
 └── references/
+    ├── evaluation-rubric.md
     ├── poetic-line-editorial-prompt.en.md
     ├── poetic-line-editorial-prompt.zh-CN.md
+    ├── subject-routing.md
+    ├── two-stage-pipeline.md
     └── typography-system.md
 ```
 
 ## 自定义
 
-你可以从三个位置调整 Skill：
+你可以从这些位置调整 Skill：
 
 - `SKILL.md`：触发条件、工作流、硬性约束和验收标准
 - `references/poetic-line-editorial-prompt.*.md`：生成提示的完整细则
+- `references/subject-routing.md`：题材路由、抽象档位和事实到笔触的映射
 - `references/typography-system.md`：标题字体、尺度和空间行为
+- `scripts/`：拼版、文字、尺寸校验和评分逻辑
 
 新增参考图时，请把图片放进对应的 `assets/` 子目录，并在提示中明确它只提供风格。用户上传的照片始终是唯一内容来源。
 

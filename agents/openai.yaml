@@ -1,4 +1,4 @@
 interface:
   display_name: "Poetic Line Photo Editorial"
-  short_description: "Photo memory panels with expressive zine typography"
-  default_prompt: "Use $poetic-line-zine-poster to preserve this photo and build a source-derived sweep-scribble panel with experimental zine typography."
+  short_description: "Faithful photos, abstract memory panels, exact output"
+  default_prompt: "Use $poetic-line-zine-poster to preserve this photo, distill it into a restrained sweep-scribble panel, and deliver an exact 9:16 editorial artwork."

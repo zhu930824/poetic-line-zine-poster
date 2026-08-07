@@ -2,11 +2,13 @@
 
 ## 1. Finished structure
 
-Treat the uploaded photograph as the sole content source. Create one complete vertical editorial artwork composed of:
+Treat the uploaded photograph as the sole content source. Generate a title-free abstract panel first, then compose the original photograph and typeset the title through the bundled scripts to create one complete vertical editorial artwork composed of:
 
 **a faithful original-photo area + a source-derived abstract memory panel + one poetic English title.**
 
 Keep the photograph unchanged. Reconstruct only its observed spatial, rhythmic, tonal, and color relationships in the lower panel using broad charcoal sweeps and continuous chromatic scribble-lines. This is not full-image line-art conversion, filtering, vectorization, or style transfer.
+
+Use the two-stage workflow in `references/two-stage-pipeline.md`. Use a one-pass full-composition fallback only when the environment cannot run Pillow or cannot access the generated panel file.
 
 ## 2. Two roles of the input photograph
 
@@ -29,6 +31,8 @@ Never produce a scene thumbnail, tracing, full illustration, vector copy, or gen
 
 Prioritize relationships and retain only minimum necessary recognition cues:
 
+Read `references/subject-routing.md` before generation. Choose one primary route, at most one secondary route, and one abstraction level. Use 5–9 broad mark groups for `restrained`, 9–14 for `balanced`, and 14–22 for `expressive`. Default to `balanced`; map requests for more abstraction or simpler marks to `restrained`.
+
 - People: head direction, shoulder slope, torso axis, limb rhythm, spacing, and occlusion; no realistic faces, fingers, or clothing detail.
 - Animals: head/body mass, spine curve, limb rhythm, ear/tail direction, and one marking.
 - Plants: canopy mass, trunk direction, and gathering or dispersing rhythm; no individual leaves.
@@ -43,7 +47,7 @@ Use **Hybrid Sweep-Scribble** by default.
 
 ### Charcoal Sweep
 
-- Build the dominant mass from about 6–18 broad graphite or charcoal side-strokes rather than enclosing contours.
+- Build the dominant mass with the broad-mark count assigned by the selected abstraction level rather than enclosing contours.
 - Align the stroke direction with observed spines, shoulders, architectural layers, horizons, wind, movement, or repeated rhythm.
 - Compress the darkest values at two to four meaningful anchors.
 - Let clean ivory gaps cut through the mass to create internal light and missing form.
@@ -107,6 +111,7 @@ Create one original English title from real subject relationships, time, light, 
 - Avoid travel slogans, place labels, photographic jargon, and empty “Memory,” “Dream,” or “Moment” titles.
 - Use one title only; do not add a subtitle by default.
 - Read `references/typography-system.md` and select edge-pressed serif, fragmented typewriter, letterpress emphasis, or ghost text.
+- Verify spelling and word uniqueness, then render the title with `scripts/render_typography.py`. Do not ask the image model to generate final lettering.
 - Treat the title as a physical compositional mark. Let it press against an edge, bridge a gap, flank an anchor, suspend below a sweep, follow a short axis, or replace a small missing mark segment.
 - Keep most type around 2%–4.5% of panel height. Only letterpress-emphasis mode may enlarge one existing title word to 6%–9%.
 - Use book serif, humanist serif, typewriter, or monospaced faces with restrained capitals or lowercase, loose tracking, irregular line breaks, and slight baseline drift when appropriate.
@@ -123,5 +128,7 @@ For Hybrid mode, inspect and attach one image from each group in `assets/style-r
 ## 12. Output and rejection criteria
 
 Return only the completed composition unless the user explicitly requests the prompt or explanation.
+
+Compose the source and panel with `scripts/compose_poster.py`, render the title with `scripts/render_typography.py`, and run `scripts/validate_output.py` to check ratio, source-photo pixel fidelity, and panel corners. Use `references/evaluation-rubric.md` and a fixed test set after Skill changes.
 
 Reject and regenerate once if the photograph is altered; the panel becomes a scene illustration or thumbnail; the subject is enclosed by thin contour lines; the color scribble is decorative rather than structural; the panel background becomes textured; the motif fills the panel; the title becomes a generic large caption below the motif; title fragments lose their reading order; reference wording is copied; or unwanted text appears.

@@ -10,6 +10,8 @@ Treat words as physical marks that participate in the abstraction. Do not place 
 
 The title must remain semantically readable and every word must appear exactly once. Never copy wording, dates, coordinates, archive notes, captions, or letter arrangements from the reference images.
 
+Generate and verify the title as text before rendering. Use `scripts/render_typography.py` for the final lettering so the source photo remains untouched and every word appears once. Map the modes below to CLI values `edge`, `fragmented`, `letterpress`, and `ghost`.
+
 ## Mode A — Edge-Pressed Serif
 
 Use when the motif has a strong side, opening, vertical edge, shelter, doorway, tree trunk, tower, or paired panels.
