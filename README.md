@@ -235,3 +235,16 @@ poetic-line-zine-poster/
 小尺度 zine 字体、碎片化排版和文字参与构图的思路参考了：
 
 - [gc-minimal-zine-poster](https://github.com/LiamGvchi/gc-minimal-zine-poster)
+
+## 作者与社交媒体
+
+作者：深海
+
+- 小红书：[**K同学**](https://www.xiaohongshu.com/user/profile/5f83eaa5000000000100457b)
+- 抖音：[**Kismet**](https://www.douyin.com/user/MS4wLjABAAAAlna6iIIWJPHlo_9m0O0xwXwMkRuFT5DhVd7aixyTSxc)
+- [X（Twitter）@mylittlecoka](https://x.com/mylittlecoka)
+- 微信公众号：**LatentSpace成长小站**
+
+<p align="center">
+  <img src="docs/latentspace-wechat-qrcode.png" width="640" alt="微信公众号 LatentSpace成长小站二维码" />
+</p>
